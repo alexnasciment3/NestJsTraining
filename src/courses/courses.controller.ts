@@ -3,25 +3,26 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
-  HttpStatus,
   Param,
   Patch,
   Post,
   Res,
 } from '@nestjs/common';
-import { create } from 'domain';
+
+import { CoursesService } from './courses.service';
 
 @Controller('courses')
 export class CoursesController {
+  constructor(private readonly coursesService: CoursesService) {}
+
   @Get()
-  findAll(@Res() response) {
-    return response.status(200).send('Listagem de cursos');
+  findAll() {
+    return this.coursesService.findAll();
   }
 
   @Get(':id')
   findeOne(@Param() params) {
-    return `Curso #${params.id}`;
+    return this.coursesService.findOne(params.id);
   }
 
   //  -----------Parametro Desestruturado
@@ -31,18 +32,18 @@ export class CoursesController {
   // }
 
   @Post()
-  @HttpCode(HttpStatus.NO_CONTENT)
+  // @HttpCode(HttpStatus.NO_CONTENT)
   create(@Body() body) {
-    return body;
+    return this.coursesService.create(body);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() body) {
-    return `Atualização do Curso #${id}`;
+    return this.coursesService.update(id, body);
   }
 
   @Delete(':id')
   remove(@Param() params) {
-    return `Exclusão Curso #${params.id}`;
+    return this.coursesService.remove(params.id);
   }
 }
