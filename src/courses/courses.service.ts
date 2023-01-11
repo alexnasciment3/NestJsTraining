@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { HttpStatus } from '@nestjs/common/enums';
+import { HttpException } from '@nestjs/common/exceptions';
 import { Course } from './entities/course.entity';
 
 @Injectable()
@@ -16,8 +18,18 @@ export class CoursesService {
     return this.courses;
   }
 
-  findOne(id: string) {
-    return this.courses.find((course: Course) => course.id === Number(id));
+  async findOne(id: string) {
+    const course = await this.courses.find(
+      (course: Course) => course.id === Number(id),
+    );
+
+    if (!course) {
+      throw new HttpException(
+        `Course ID ${id} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return course;
   }
 
   create(createCourseDto: any) {
