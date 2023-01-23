@@ -15,6 +15,7 @@ import { CoursesModule } from './courses/courses.module';
       password: 'postgres',
       database: 'postgres',
       autoLoadEntities: true,
+      // don't utilize in prod
       synchronize: true,
     }),
   ],
