@@ -33,3 +33,9 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Docker
+# In real cases we didn't push this files
+.docker/*
+!.docker/entrypoint.sh
+!.docker/postgres/DockerFile
